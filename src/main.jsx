@@ -7,8 +7,10 @@ import UserProvider from './context/UserProvider.jsx'
 
 createRoot(document.getElementById('root')).render(
   <UserProvider>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>,
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+
   </UserProvider>
+
 )

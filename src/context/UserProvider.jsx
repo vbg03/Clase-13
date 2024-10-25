@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { createContext } from 'react'
+import PropTypes from 'prop-types'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth'
 import { auth } from '../firebase/firebase'
-import PropTypes from 'prop-types'
 
 export const UserContext = createContext();
-
 const UserProvider = (props) => {
     const [user, setUser] = useState(false)
-
-    //Registro con firebase
+    //registro con firebase
     const registerUser = (email, password) => {
         createUserWithEmailAndPassword(auth, email, password)
     }
-
-    //Login con firebase
+    //login con firebase
     const loginUser = (email, password) => {
         signInWithEmailAndPassword(auth, email, password)
+
     }
 
     const signOutUser = () => {
         signOut(auth);
+
     }
 
-    //Mantener el usuario presente en el sitio
+    //mantener el susuario presente en el sitio
+
     useEffect(() => {
         const unsuscribe = onAuthStateChanged(auth, (user) => {
             console.log(user);
@@ -34,19 +34,21 @@ const UserProvider = (props) => {
                 setUser(null)
             }
         })
-        return () => unsuscribe()
+        return () => unsuscribe();
     }, [])
 
     return (
-        <UserContext.Provider value={{ user, setUser, registerUser, loginUser }}>
+        <UserContext.Provider value={{ user, setUser, registerUser, loginUser, signOutUser }}>
             {props.children}
+
         </UserContext.Provider>
     )
 }
 
-//Validación de props
-UserProvider.PropTypes = {
-    children: PropTypes.node.isRequired
+//validacion de props
+UserProvider.propTypes = {
+    children: PropTypes.node.isRequired,
+
 };
 
 export default UserProvider
